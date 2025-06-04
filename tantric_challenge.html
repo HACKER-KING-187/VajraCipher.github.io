@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tantric Cyber Challenge</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #FFD700;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .riddle, .expired {
+            display: none;
+            font-size: 18px;
+        }
+        .timer {
+            font-size: 24px;
+            color: #FF4500;
+        }
+        h1 {
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🕉️ Tantric Cyber Challenge 🕉️</h1>
+        <div id="timer" class="timer"></div>
+        <div id="riddle" class="riddle">
+            <p>🧠 Solve: x² + 42x + 420 = 0 mod 8380417</p>
+            <p>DM fractal key to @VajraCypher on X!</p>
+        </div>
+        <div id="expired" class="expired">
+            <p>QR Code Expired! Sankhya Void Claims You! 🕉️</p>
+        </div>
+    </div>
+
+    <script>
+        const TIME_LIMIT = 120; // 120 seconds
+        const riddleDiv = document.getElementById("riddle");
+        const expiredDiv = document.getElementById("expired");
+        const timerDiv = document.getElementById("timer");
+
+        let startTime = localStorage.getItem("tantricChallengeStartTime");
+
+        if (!startTime) {
+            startTime = Math.floor(Date.now() / 1000);
+            localStorage.setItem("tantricChallengeStartTime", startTime);
+        }
+
+        startTime = parseInt(startTime);
+
+        function updateTimer() {
+            const currentTime = Math.floor(Date.now() / 1000);
+            const timeElapsed = currentTime - startTime;
+            const timeRemaining = TIME_LIMIT - timeElapsed;
+
+            if (timeRemaining <= 0) {
+                riddleDiv.style.display = "none";
+                expiredDiv.style.display = "block";
+                timerDiv.textContent = "Time's Up!";
+                localStorage.removeItem("tantricChallengeStartTime");
+            } else {
+                riddleDiv.style.display = "block";
+                expiredDiv.style.display = "none";
+                timerDiv.textContent = `Time Remaining: ${timeRemaining} seconds`;
+                setTimeout(updateTimer, 1000);
+            }
+        }
+
+        updateTimer();
+    </script>
+</body>
+</html>
